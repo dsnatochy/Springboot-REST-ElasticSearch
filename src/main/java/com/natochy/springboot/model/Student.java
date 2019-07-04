@@ -1,12 +1,19 @@
 package com.natochy.springboot.model;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+@Document(indexName = "students", type = "student")
 public class Student {
+	@Id
 	private String id;
 	private String name;
 	private String description;
 	private List<Course> courses;
 
+	public Student() {}
+	
 	public Student(String id, String name, String description,
 			List<Course> courses) {
 		super();

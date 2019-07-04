@@ -1,19 +1,44 @@
 package com.natochy.springboot.service;
 
 import java.math.BigInteger;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
+import org.elasticsearch.index.query.QueryBuilders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.IndexQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.natochy.springboot.model.Course;
 import com.natochy.springboot.model.Student;
+import com.natochy.springboot.repository.StudentRepository;
 
-@Component
+@Repository
 public class StudentService {
+	
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
+	@Value("${elasticsearch.index.name}")
+	private String indexName;
+	
+	@Value("${elasticsearch.user.type}")
+	private String userType;
+	
+	@Autowired
+	private ElasticsearchTemplate esTemplate;
+	
 	private static List<Student> students = new ArrayList<>();
 	
 	static {
@@ -44,7 +69,24 @@ public class StudentService {
 		students.add(satish);
 	}
 	
+	/*
+	 * private StudentRepository studentRepository;
+	 * 
+	 * @Autowired public void setStudentRepository(StudentRepository
+	 * studentRepository) { this.studentRepository = studentRepository; }
+	 */
 	public List<Student> retrieveAllStudents() {
+		//return students;
+		SearchQuery getAllQuery = new NativeSearchQueryBuilder()
+				.withQuery(matchAllQuery()).build();
+		return esTemplate.queryForList(getAllQuery, Student.class);
+	}
+	
+	public List<Student> retrieveStudentsByName(String name){
+		SearchQuery query = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.matchQuery("name", name)).build();
+		
+		List<Student> students = esTemplate.queryForList(query, Student.class);
 		return students;
 	}
 	
@@ -93,6 +135,19 @@ public class StudentService {
 		student.getCourses().add(course);
 		return course;
 
+	}
+	
+	public Student addStudent(Student student) {
+		IndexQuery studentQuery = new IndexQuery();
+		studentQuery.setIndexName(indexName);
+		studentQuery.setType(userType);
+		studentQuery.setObject(student);
+		studentQuery.setId(UUID.randomUUID().toString());
+		
+		LOG.info("Student indexed: {}", esTemplate.index(studentQuery));
+	
+		esTemplate.refresh(indexName);
+		return student;
 	}
 	
 	

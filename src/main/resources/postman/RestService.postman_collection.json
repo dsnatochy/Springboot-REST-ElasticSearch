@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "1d5a5bb3-cee9-4fa7-b940-e09f7cc990ff",
+		"name": "RestService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register Course for Student",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "320c029b-091c-4745-afc0-a68ebf7c19c0",
+						"exec": [
+							"pm.globals.set(\"studentId\", \"Student1\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Microservices\",\n  \"description\": \"10 Steps\",\n  \"steps\": [\n    \"Learn How to Break Things Up\",\n    \"Automate the hell out of everything\",\n    \"Have fun\"\n  ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/students/Student1/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"Student1",
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new Student",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "320c029b-091c-4745-afc0-a68ebf7c19c0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"Student1\",\n    \"name\": \"Ranga Karanam\",\n    \"description\": \"Hiker, Programmer and Architect\",\n    \"courses\": [\n        {\n            \"id\": \"Course1\",\n            \"name\": \"Spring\",\n            \"description\": \"10 Steps\",\n            \"steps\": [\n                \"Learn Maven\",\n                \"Import Project\",\n                \"First Example\",\n                \"Second Example\"\n            ]\n        },\n        {\n            \"id\": \"Course2\",\n            \"name\": \"Spring MVC\",\n            \"description\": \"10 Examples\",\n            \"steps\": [\n                \"Learn Maven\",\n                \"Import Project\",\n                \"First Example\",\n                \"Second Example\"\n            ]\n        },\n        {\n            \"id\": \"Course3\",\n            \"name\": \"Spring Boot\",\n            \"description\": \"6K Students\",\n            \"steps\": [\n                \"Learn Maven\",\n                \"Learn Spring\",\n                \"Learn Spring MVC\",\n                \"First Example\",\n                \"Second Example\"\n            ]\n        },\n        {\n            \"id\": \"Course4\",\n            \"name\": \"Maven\",\n            \"description\": \"Most popular maven course on internet!\",\n            \"steps\": [\n                \"Pom.xml\",\n                \"Build Life Cycle\",\n                \"Parent POM\",\n                \"Importing into Eclipse\"\n            ]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Courses For Student",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/students/Student1/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"Student1",
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/students/Student1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"Student1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/students?name=Phillip",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Phillip"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Course By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/students/Student1/courses/kr3kuho9mr2tf7ifk75289h51k",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"Student1",
+						"courses",
+						"kr3kuho9mr2tf7ifk75289h51k"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
